@@ -1,6 +1,30 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
 
+const props = defineProps<{
+  imgClass?: string;
+}>();
+
+const imgClass = props.imgClass;
+
+const items = [
+  {
+    to: '/rastatt',
+    src: '../../assets/rastatt.jpeg',
+    alt: 'Rastatt',
+  },
+  {
+    to: '/kehl',
+    src: '../../assets/kehl.jpeg',
+    alt: 'Kehl',
+  },
+  {
+    to: '/rheinstetten',
+    src: '../../assets/rheinstetten.jpeg',
+    alt: 'Rheinstetten',
+  },
+];
+
 // Inline SVG fallback to avoid missing file issues
 const fallback =
   "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><rect fill='%23f2f4f7' width='100%' height='100%'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%2390a4ae' font-family='arial' font-size='32'>Bild nicht verfügbar</text></svg>";
