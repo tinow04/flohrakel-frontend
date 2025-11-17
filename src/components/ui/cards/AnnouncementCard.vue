@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000';
 
 type Announcement = {
   id?: number;
@@ -12,16 +14,17 @@ type Announcement = {
 const fallbackAnnouncements: Announcement[] = [
   {
     id: 1,
-    titel: 'Testankündigung',
-    text: 'Dies ist eine Beispiel-Ankündigung, um das Kartenlayout zu zeigen.',
+    titel: 'EROOR',
+    text: 'ERROR',
     datum: '2025-01-15',
   },
 ];
 
 const announcements = ref<Announcement[]>([]);
+const currentAnnouncement = computed(() => announcements.value[0] ?? null);
 const isLoading = ref(true);
 
-const ANNOUNCEMENTS_URL = '/api/announcements';
+const ANNOUNCEMENTS_URL = `${API_BASE_URL}/api/v1/announcements`;
 
 const df = new Intl.DateTimeFormat('de-DE', {
   day: '2-digit',
@@ -40,7 +43,6 @@ async function loadAnnouncements() {
     const res = await fetch(ANNOUNCEMENTS_URL);
     if (!res.ok) {
       console.error('Fehler beim Laden der Ankündigungen:', res.statusText);
-      // Fallback, wenn der Server einen Fehlerstatus liefert
       announcements.value = fallbackAnnouncements;
       return;
     }
@@ -48,7 +50,6 @@ async function loadAnnouncements() {
     if (Array.isArray(data) && data.length) {
       announcements.value = data;
     } else {
-      // Fallback, damit immer wenigstens eine Karte angezeigt wird
       announcements.value = fallbackAnnouncements;
     }
   } catch (err) {
@@ -76,20 +77,18 @@ onMounted(() => {
       Lade aktuelle Ankündigungen ...
     </p>
     <article
-      v-else
+      v-else-if="currentAnnouncement"
       class="announcement-card"
-      v-for="(a, i) in announcements"
-      :key="i"
     >
       <header class="announcement-header">
         <div class="announcement-meta">
           <span class="badge">Neu</span>
-          <time class="announcement-date">{{ formatDate(a.datum) }}</time>
+          <time class="announcement-date">{{ formatDate(currentAnnouncement.datum) }}</time>
         </div>
-        <h3 class="announcement-title">{{ a.titel }}</h3>
+        <h3 class="announcement-title">{{ currentAnnouncement.titel }}</h3>
       </header>
       <p class="announcement-body">
-        {{ a.text }}
+        {{ currentAnnouncement.text }}
       </p>
     </article>
   </section>
