@@ -4,26 +4,7 @@
     <AnnouncementCard />
     <h2 class="standorte-heading">Unsere Standorte</h2>
     <div class="image-row">
-      <LocationCard
-        to="/rastatt"
-        title="Rastatt"
-        img-src="../assets/rastatt.jpeg"
-        alt="Rastatt"
-      />
-
-      <LocationCard
-        to="/kehl"
-        title="Kehl"
-        img-src="../assets/kehl.jpeg"
-        alt="Kehl"
-      />
-
-      <LocationCard
-        to="/rheinstetten"
-        title="Rheinstetten"
-        img-src="../assets/rheinstetten.jpeg"
-        alt="Rheinstetten"
-      />
+      <LocationCard/>
     </div>
   </div>
 </template>

@@ -25,9 +25,15 @@ const items = [
   },
 ];
 
-// Inline SVG fallback to avoid missing file issues
 const fallback =
   "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><rect fill='%23f2f4f7' width='100%' height='100%'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%2390a4ae' font-family='arial' font-size='32'>Bild nicht verfügbar</text></svg>";
+
+const onImgError = (event: Event) => {
+  const target = event.target as HTMLImageElement | null;
+  if (target) {
+    target.src = fallback;
+  }
+};
 </script>
 <template>
   <div class="image-row">
@@ -38,7 +44,7 @@ const fallback =
           :alt="i.alt"
           :class="imgClass || 'location-img'"
           loading="lazy"
-          @error="(e: any) => (e.target.src = fallback)"
+          @error="onImgError"
         />
         <figcaption class="location-name">{{ i.alt }}</figcaption>
       </figure>
