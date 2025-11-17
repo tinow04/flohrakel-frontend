@@ -5,7 +5,7 @@ EinkaufsOrakel is a collaborative web app for shared households. It provides a l
 | Area       | Stack                       |
 |------------|-----------------------------|
 | Frontend   | Vue 3 + Vite + TypeScript   |
-| Backend    | TBD (probably Python or Go) |
+| Backend    | Python                      |
 
 
 We use modern technologies to learn best practices for real-world software development.
