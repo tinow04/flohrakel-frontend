@@ -1,130 +1,18 @@
 <template>
   <div class="home">
     <PageHeader />
-    <section
-      class="announcement-section"
-      aria-labelledby="ank-heading"
-      v-if="announcements.length"
-    >
-      <h2 class="ank-heading-visible">Aktuelle Ankündigungen</h2>
-      <h2 id="ank-heading" class="visually-hidden">Aktuelle Ankündigungen</h2>
-      <article
-        class="announcement-card"
-        v-for="(a, i) in announcements"
-        :key="i"
-      >
-        <div class="announcement-meta">
-          <span class="badge">Neu</span>
-          <time class="announcement-date">{{ formatDate(a.datum) }}</time>
-        </div>
-        <p class="announcement-title">{{ a.titel }}</p>
-        <p class="announcement-body">{{ a.text }}</p>
-      </article>
-    </section>
+    <AnnouncementCard />
     <h2 class="standorte-heading">Unsere Standorte</h2>
     <div class="image-row">
-      <RouterLink to="/rastatt">
-        <img
-          src="../assets/rastatt.jpeg"
-          alt="Rastatt"
-          class="clickable-image"
-        />
-      </RouterLink>
-
-      <RouterLink to="/kehl">
-        <img src="../assets/kehl.jpeg" alt="Kehl" class="clickable-image" />
-      </RouterLink>
-
-      <RouterLink to="/rheinstetten">
-        <img
-          src="../assets/rheinstetten.jpeg"
-          alt="Rheinstetten"
-          class="clickable-image"
-        />
-      </RouterLink>
+      <LocationCard/>
     </div>
-    <section class="termine-section" aria-labelledby="termine-heading">
-      <h2 id="termine-heading">Nächste Flohmarkt-Termine</h2>
-      <div class="termine-grid">
-        <FixtureCard
-          v-for="(e, idx) in events"
-          :key="idx"
-          :ort="e.ort"
-          :datum="e.datum"
-          :start="e.start"
-          :ende="e.ende"
-          :link="e.link"
-        />
-      </div>
-    </section>
   </div>
 </template>
 
 <script setup lang="ts">
 import PageHeader from '../components/ui/header/PageHeader.vue';
-import FixtureCard from '../components/ui/cards/FixtureCard.vue';
-
-type Announcement = {
-  titel: string;
-  text: string;
-  datum: string;
-  link?: string;
-};
-
-// Demo-Einträge – später durch Admin-Backend ersetzbar
-const announcements: Announcement[] = [
-  {
-    titel: 'Nächster Flohmarkt-Termin verlegt',
-    text: 'Der Termin in Rastatt wurde auf den 20. Oktober verschoben. Danke für euer Verständnis!',
-    datum: '2025-10-12',
-    link: '/termine',
-  },
-];
-
-type Termin = {
-  ort: string;
-  datum: string; // ISO-Date (YYYY-MM-DD)
-  start: string; // "HH:MM"
-  ende: string; // "HH:MM"
-  link: string; // RouterLink target
-};
-
-// Beispiel-Daten – kannst du später aus einer API/Datei laden
-const events: Termin[] = [
-  {
-    ort: 'Rastatt',
-    datum: '2025-10-20',
-    start: '10:00',
-    ende: '17:00',
-    link: '/rastatt',
-  },
-  {
-    ort: 'Kehl',
-    datum: '2025-11-02',
-    start: '09:00',
-    ende: '16:00',
-    link: '/kehl',
-  },
-  {
-    ort: 'Rheinstetten',
-    datum: '2025-11-10',
-    start: '10:00',
-    ende: '17:00',
-    link: '/rheinstetten',
-  },
-];
-
-const df = new Intl.DateTimeFormat('de-DE', {
-  day: '2-digit',
-  month: 'long',
-  year: 'numeric',
-});
-
-function formatDate(iso: string): string {
-  const [y, m, d] = iso.split('-').map(Number);
-  return df.format(new Date(y, m - 1, d));
-}
-
+import AnnouncementCard from '../components/ui/cards/AnnouncementCard.vue';
+import LocationCard from '../components/ui/cards/LocationCard.vue';
 </script>
 
 <style scoped>
